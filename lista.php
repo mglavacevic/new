@@ -1,11 +1,28 @@
 <?php
 
+session_start();
+
+include 'functions.php';
+
+if ( !jel_prijavljen() ) {
+	header ('location: login.php');
+	die();
+}
+?>
+
+
+
+
+
+<?php
+
 include 'db.php';
 
 $izraz = $veza->prepare("select * from Korisnik");
 $izraz->execute();
 $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -20,13 +37,17 @@ $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 	<link href="css/stil.css" rel="stylesheet">
 
 
-  </head>
-  <body>
-  <h1> Adresar </h1>
+</head>
+<body>
+<div class="odjava">
+<a href="logout.php">Odjavi se</a>
+</div>
 
-  <ul>
+<h1> Adresar </h1>
+
+<ul>
 <?php foreach ($rezultati as $red): ?>
-	<li><h1></h1><a href="http://localhost/collab_tasks/prikaz.php?id=<?php echo $red->id ?>"><?php echo $red->ime . ' ' . $red->prezime ?></a></h1></li>
+<li><h1></h1><a href="http://localhost/collab_tasks/prikaz.php?id=<?php echo $red->id ?>"><?php echo $red->ime . ' ' . $red->prezime ?></a></h1></li>
 
 <div>
 
@@ -41,6 +62,8 @@ $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 <div class="dodavanje">
 <a href="create.php"> Dodaj </a> <br/>
 </div>
+
+
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
@@ -61,7 +84,7 @@ $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 						}
 	});
 		return false;
-	});
+  });
 
 
 </script>

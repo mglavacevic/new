@@ -36,8 +36,12 @@ $rezultat = $izraz->fetch(PDO::FETCH_OBJ);
   	<li>Mobitel: <?php echo $rezultat->mobitel ?></li>
   </ul>
 
+<a href="kakogodhocu.php?id=<?php echo $red->id;?>">Izmijeni</a>
 
-		
+<div class="dodavanje">
+<a href="create.php"> Dodaj </a> <br/>
+</div>
+
 
 
 

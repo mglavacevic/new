@@ -15,7 +15,7 @@
     ?>
        <div>
         <h1>Izmjena podataka</h1>
-        <form action="change.php" method="POST">
+        <form action="change.php" method="post">
         <fieldset>
      ID
 <input type="text" name="id" value="<?php echo $red->id;?>" /> <br/>
@@ -27,11 +27,11 @@
 <input type="text" name="drzava" value="<?php echo $red->drzava;?>" /> <br/>
     Grad
 <input type="text" name="grad" value="<?php echo $red->grad;?>" /> <br/>
-    ulica
+    Ulica
   <input type="text" name="ulica" value="<?php echo $red->ulica;?>" /> <br/>
-    email
+    E-mail
 <input type="text" name="email" value="<?php echo $red->email;?>" /> <br/>
-    mobitel
+    Mobitel
 <input type="text" name="mobitel" value="<?php echo $red->mobitel;?>" /> <br/>
 <input type="submit" class="btn" />
         </fieldset>
