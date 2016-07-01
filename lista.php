@@ -4,7 +4,7 @@ include 'functions.php';
 
 
 $user_id = $_SESSION["user_id"];
-// ne sve, samo one od korisnika (provjerit po njegovom idu iz sessiona
+
 $izraz = $veza->prepare("SELECT * FROM `korisnik` WHERE id = $user_id");
 $izraz->execute();
 $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);

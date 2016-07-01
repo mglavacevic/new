@@ -17,7 +17,7 @@ function provjeri_korisnikove_podatke($email , $pass, $veza) {
 
     if ($data !== false) {
 
-        //  Vratit ID trenutno ulogiranog korisnika
+
         return $data->id;
     }
 
@@ -37,7 +37,7 @@ if($user_id !== false){
   } else {
     exit('jebiga');
     }
-        // Spremit ID trenutno ulogiranog korisnika
+      
 
 	} else {
 		$status = "<strong>Netočni podaci za prijavu!</strong>";
