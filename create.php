@@ -1,21 +1,22 @@
 <?php
 
-    $veza = new PDO("mysql:dbname=adresar;host=localhost", "root", "");
-    $veza->exec("set names utf8");
+    include 'functions.php';
 
-    $izraz = $veza->prepare("INSERT INTO Korisnik (id, ime, prezime, drzava, grad, ulica, email, mobitel) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-    $izraz->bindValue(1, $_POST["id"], PDO::PARAM_INT);
-    $izraz->bindValue(2, $_POST["ime"], PDO::PARAM_STR);
-    $izraz->bindValue(3, $_POST["prezime"], PDO::PARAM_STR);
-    $izraz->bindValue(4, $_POST["drzava"], PDO::PARAM_STR);
-    $izraz->bindValue(5, $_POST["grad"], PDO::PARAM_STR);
-    $izraz->bindValue(6, $_POST["ulica"], PDO::PARAM_STR);
-    $izraz->bindValue(7, $_POST["email"], PDO::PARAM_STR);
-    $izraz->bindValue(8, $_POST["mobitel"], PDO::PARAM_STR);
+    $izraz = $veza->prepare(
+        'INSERT INTO `korisnik`'
+        . ' (ime, prezime, drzava, grad, ulica, email, mobitel)'
+        . 'VALUES (:ime, :prezime, :drzava, :grad, :ulica, :email, :mobitel)'
+    );
 
-    $izraz->execute();
+    $izraz->execute([
+        'ime' => $_POST["ime"],
+        'prezime' => $_POST["prezime"],
+        'drzava' => $_POST["drzava"],
+        'grad' =>$_POST["grad"],
+        'ulica' =>$_POST["ulica"],
+        'email' =>$_POST["email"],
+        'mobitel' =>$_POST["mobitel"],
+    ]);
 
 
-header("location: lista.php");
-
-?>
+    header("location: lista.php");

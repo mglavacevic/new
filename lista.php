@@ -1,57 +1,23 @@
 <?php
 
-session_start();
-
 include 'functions.php';
 
-if ( !jel_prijavljen() ) {
-	header ('location: login.php');
-	die();
-}
-?>
 
-
-
-
-
-<?php
-
-include 'db.php';
-
-$izraz = $veza->prepare("select * from Korisnik");
+$user_id = $_SESSION["user_id"];
+// ne sve, samo one od korisnika (provjerit po njegovom idu iz sessiona
+$izraz = $veza->prepare("SELECT * FROM `korisnik` WHERE id = $user_id");
 $izraz->execute();
 $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
+
+include 'header.template.php'
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Adresar</title>
-
-
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/stil.css" rel="stylesheet">
-
-
-</head>
-<body>
-<div class="odjava">
-<a href="logout.php">Odjavi se</a>
-</div>
-
-<h1> Adresar </h1>
-
 <ul>
 <?php foreach ($rezultati as $red): ?>
-<li><h1></h1><a href="http://localhost/collab_tasks/prikaz.php?id=<?php echo $red->id ?>"><?php echo $red->ime . ' ' . $red->prezime ?></a></h1></li>
+<li><h1></h1><a href="<?php echo HOST ?>prikaz.php?id=<?php echo $red->id ?>"><?php echo $red->ime . ' ' . $red->prezime ?></a></h1></li>
 
 <div>
 
-<a id="<?php echo $red->id;?>" class="obrisi"> Obriši </a>
+<a href="<?php echo HOST ?>delete.php?id=<?php echo $red->id ?>" data-id="<?php echo $red->id ?>" class="obrisi"> Obriši </a>
 <a href="kakogodhocu.php?id=<?php echo $red->id;?>">Izmijeni</a> <br/>
 
 </div>
@@ -60,7 +26,7 @@ $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
 <?php endforeach ?>
 
 <div class="dodavanje">
-<a href="create.php"> Dodaj </a> <br/>
+<a href="<?php echo HOST ?>novi.php"> Dodaj </a> <br/>
 </div>
 
 
@@ -70,23 +36,20 @@ $rezultati = $izraz->fetchAll(PDO::FETCH_OBJ);
     <script src="js/bootstrap.min.js"></script>
 <script>
 	$(".obrisi").click(function(){
-		var id = $(this).attr("id");
+		var id = $(this).data("id");
 		$.ajax({
 			type:"POST",
 			url: "delete.php",
 			data: "id=" + id,
 			success: function(vratioServer){
-							if(vratioServer=="OK"){
-								location.reload();
-							}else{
-								alert(vratioServer);
-							}
-						}
+                if(vratioServer=="OK"){
+                    location.reload();
+                }else{
+                    alert(vratioServer);
+                }
+            }
 	});
-		return false;
   });
-
-
 </script>
 
   </ul>

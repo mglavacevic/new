@@ -1,13 +1,4 @@
-<?php
-    include 'functions.php';
-
-$izraz = $veza->prepare('SELECT * FROM `korisnik` WHERE id=:id');
-$izraz->execute([
-    'id' => $_GET["id"]
-]);
-$red = $izraz->fetch(PDO::FETCH_OBJ);
-?>
-<!DOCTYPE html>
+<?php include 'functions.php' ?><!DOCTYPE html>
 <html lang="en">
  <head>
    <title>Adresar</title>
@@ -15,10 +6,8 @@ $red = $izraz->fetch(PDO::FETCH_OBJ);
  <body>
        <div>
         <h1>Izmjena podataka</h1>
-        <form action="change.php" method="post">
+        <form action="<?php echo HOST ?>create.php" method="post">
         <fieldset>
-     ID
-<input type="text" name="id" value="<?php echo $red->id;?>" /> <br/>
     Ime
 <input type="text" name="ime" value="<?php echo $red->ime;?>" /> <br/>
     Prezime

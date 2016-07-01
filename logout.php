@@ -8,4 +8,3 @@ $_SESSION = array();
 
 header('Location: login.php');
 
-?>

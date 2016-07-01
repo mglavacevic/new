@@ -2,17 +2,43 @@
 
 session_start();
 
+include 'db.php';
 
-include 'functions.php';
+function provjeri_korisnikove_podatke($email , $pass, $veza) {
+    $izraz = $veza->prepare(
+        'SELECT * FROM `login` WHERE `email`=:email AND `pass`=:pass'
+    );
+    $izraz->execute([
+        'email' => $email,
+        'pass' => $pass
+    ]);
 
+    $data = $izraz->fetch(PDO::FETCH_OBJ);
+
+    if ($data !== false) {
+
+        //  Vratit ID trenutno ulogiranog korisnika
+        return $data->id;
+    }
+
+    return false;
+}
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
 	$email = $_POST['email'];
 	$mobitel = $_POST['mobitel'];
 
-	if ( provjeri_korisnikove_podatke($email , $mobitel) ) {
-		$_SESSION['email'] = $email;
-		header("Location: lista.php");
+	if ( $user_id = provjeri_korisnikove_podatke($email , md5($mobitel), $veza) ) {
+
+if($user_id !== false){
+    $_SESSION['email'] = $email;
+    $_SESSION['user_id'] = $user_id;
+    header("Location: lista.php");
+  } else {
+    exit('jebiga');
+    }
+        // Spremit ID trenutno ulogiranog korisnika
+
 	} else {
 		$status = "<strong>Netočni podaci za prijavu!</strong>";
 	}
@@ -27,7 +53,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
      <h1>Prijavi se</h1>
 
-    	<form action="login.php" method="post">
+    	<form action="<?php echo HOST ?>login.php" method="post">
      	<ul>
      		<li>
      			<label for="email">Korisničko ime: </label>
